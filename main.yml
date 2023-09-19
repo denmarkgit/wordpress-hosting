@@ -1,0 +1,18 @@
+---
+- name: Configure host
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: update apt repo 
+      apt:
+        update_cache: true
+        cache_valid_time: 86400 # 1 day
+
+  roles:
+    - geerlingguy.mysql
+    - geerlingguy.apache
+    - geerlingguy.php
+    - geerlingguy.php-mysql
+
+
