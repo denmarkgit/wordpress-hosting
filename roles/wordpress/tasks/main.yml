@@ -1,0 +1,48 @@
+---
+- name: Create a wordpress user.
+  user:
+    name: "{{ item.wordpress_user }}"
+    shell: /bin/bash
+    state: present
+  with_items: "{{ wordpress_site }}"
+
+- name: Create a public_html directory
+  file:
+    path: /home/{{ item.wordpress_user }}/public_html
+    state: directory
+  with_items: "{{ wordpress_site }}"
+
+- name: Create a log directory
+  file:
+    path: /home/{{ item.wordpress_user}}/logs
+    state: directory
+  with_items: "{{ wordpress_site }}"
+
+- name: Download latest wordpress
+  get_url:
+    url: https://wordpress.org/wordpress-6.3.1.tar.gz
+    dest: /home/{{ item.wordpress_user }}/wordpress.tar.gz
+  with_items: "{{ wordpress_site }}"
+
+- name: extract wordpress
+  unarchive:
+    src: /home/{{ item.wordpress_user }}/wordpress.tar.gz
+    dest: /home/{{ item.wordpress_user }}/public_html
+    owner: "{{ item.wordpress_user }}"
+    group: www-data
+    remote_src: true
+    mode: 0644
+    extra_opts: 
+      - --strip-components=1
+  with_items: "{{ wordpress_site }}"
+
+- name: Ensure proper ownership and permission
+  file:
+    path: /home/{{ item.wordpress_user }}
+    state: directory
+    recurse: true
+    owner: "{{ item.wordpress_user }}"
+    group: www-data
+    mode: 0775
+  with_items: "{{ wordpress_site }}"
+

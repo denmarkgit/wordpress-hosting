@@ -3,6 +3,9 @@
   hosts: all
   become: true
 
+  vars_files:
+    - vars/main.yml
+
   pre_tasks:
     - name: update apt repo 
       apt:
@@ -10,9 +13,14 @@
         cache_valid_time: 86400 # 1 day
 
   roles:
-    - geerlingguy.mysql
-    - geerlingguy.apache
     - geerlingguy.php
-    - geerlingguy.php-mysql
+    - geerlingguy.nginx
+    - role: geerlingguy.mysql
+      become: yes
+    - wordpress
 
-
+  tasks:
+    - name: create info.php
+      shell: |
+        echo "<?php phpinfo(); ?>" >> /var/www/html/info.php
+    
