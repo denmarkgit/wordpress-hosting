@@ -31,7 +31,7 @@
         gzip_disable "msie6";
         gzip_vary on;
         gzip_min_length 512;
-        gzip_types text/plain text/html application/x-javascript text/javascript application/javascript text/xml text/css application/font-sfnt;
+        gzip_types text/plain application/x-javascript text/javascript application/javascript text/xml text/css application/font-sfnt;
 
         fastcgi_cache_path /usr/share/nginx/cache/fcgi levels=1:2 keys_zone=microcache:10m max_size=1024m inactive=1h;
 

@@ -13,14 +13,19 @@
         cache_valid_time: 86400 # 1 day
 
   roles:
+    - wordpress
     - geerlingguy.php
     - geerlingguy.nginx
     - role: geerlingguy.mysql
       become: yes
-    - wordpress
 
   tasks:
     - name: create info.php
       shell: |
         echo "<?php phpinfo(); ?>" >> /var/www/html/info.php
+
+    - name: create cache directory
+      file:
+        path: /usr/share/nginx/cache/fcgi
+        state: directory
     
