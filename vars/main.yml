@@ -1,3 +1,5 @@
+php_use_managed_ini: false
+
 php_packages_extra:
   - php-mysql
   - php-curl
@@ -19,24 +21,27 @@ nginx_conf_template: "nginx.wordpress.conf.j2"
 php_enable_php_fpm: true
 
 php_fpm_pools:
-  - pool_name: denmark
+  - pool_name: denmarkangeles
     pool_template: fpm.pool.conf.j2
 
 nginx_vhosts:
-  - listen: "80"
-    server_name: "denmark.com"
-    server_name_redirect: "www.denmark.com"
-    root: "/home/denmark/public_html"
+  - listen: "443 ssl"
+    server_name: "denmarkangeles.com"
+    root: "/home/denmarkangeles/public_html"
     index: "index.php index.html index.htm"
     state: "present"
     template: "{{ nginx_vhost_template }}"
-    filename: "denmark.conf"
+    filename: "denmarkangeles.conf"
     extra_parameters: |
+
+        ssl_certificate /etc/letsencrypt/live/denmarkangeles.com/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/denmarkangeles.com/privkey.pem; # managed by Certbot
+
         location ~ \.php$ {
         include snippets/fastcgi-php.conf;
     
           # Nginx php-fpm sock config:
-          fastcgi_pass unix:/run/php/denmark.sock;
+          fastcgi_pass unix:/run/php/denmarkangeles.sock;
           # Nginx php-cgi config :
           # Nginx PHP fastcgi_pass 127.0.0.1:9000;
         }
@@ -57,4 +62,17 @@ mysql_users:
     priv: "denmark_db.*:ALL"
 
 wordpress_site:
-  - wordpress_user: denmark
+  - wordpress_user: denmarkangeles
+
+# Firewall settings.
+firewall_allowed_tcp_ports:
+  - "22"
+  - "80"
+  - "443"
+
+# Let's Encrypt certificate settings.
+certbot_create_if_missing: true
+certbot_admin_email: 'denmark.angeles@goodwindcorp.com'
+certbot_certs:
+  - domains:
+      - denmarkangeles.com

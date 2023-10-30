@@ -1,0 +1,11 @@
+[wordpress]
+www.denmarkangeles.com
+
+[letsencrypt]
+143.244.170.14
+
+[letsencrypt:vars]
+ansible_user=root
+letsencrypt_email=denmark.angeles@goodwindcorp.com
+
+

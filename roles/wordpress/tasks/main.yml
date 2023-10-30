@@ -46,3 +46,12 @@
     mode: 0775
   with_items: "{{ wordpress_site }}"
 
+- name: Create error log
+  file:
+    path: /home/{{ item.wordpress_user }}/logs/phpfpm_error.log
+    state: touch
+    owner: "{{ item.wordpress_user }}"
+    group: www-data
+    mode: 0644
+  with_items: "{{ wordpress_site }}"
+

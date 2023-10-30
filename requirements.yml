@@ -4,3 +4,5 @@
 - name: geerlingguy.php
 - name: geerlingguy.php-mysql
 - name: geerlingguy.nginx
+- name: geerlingguy.firewall
+- name: geerlingguy.certbot
