@@ -2,7 +2,7 @@
 www.denmarkangeles.com
 
 [letsencrypt]
-143.244.170.14
+web7.denmarkangeles.com
 
 [letsencrypt:vars]
 ansible_user=root

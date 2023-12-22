@@ -23,7 +23,10 @@
     - geerlingguy.nginx
     - role: geerlingguy.mysql
       become: yes
-    - geerlingguy.certbot
+      tags: [db]
+    - role: geerlingguy.certbot
+      tags: [cert]
+
 
   tasks:
     - name: create info.php
